@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testapp/src/screens/basic_design.dart';
 
 class ScrollScreen extends StatelessWidget {
   const ScrollScreen({super.key});
@@ -85,7 +86,14 @@ class _Button extends StatelessWidget {
       color: Color(0xff006f72),
       child: Center(
           child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          BasicDesignScreen()), // Pantalla2 es la pantalla destino
+                );
+              },
               // ignore: sort_child_properties_last
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40),
