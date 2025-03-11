@@ -31,7 +31,7 @@ class _PokeapiState extends State<Pokeapi> {
 
     //pokemonId++;
     try {
-      print('pokemonId ${pokemonId}');
+      print('pokemonId $pokemonId');
       final response =
           await Dio().get('https://pokeapi.co/api/v2/pokemon/$pokemonId');
       pokemon = Pokemon.fromJson(response.data);
@@ -137,7 +137,7 @@ class _PokeapiState extends State<Pokeapi> {
   void addPokemonToDatabase() async {
     Random random = Random();
     int capture = random.nextInt(3);
-    if (capture == 1) {
+    if (capture != 1) {
       if (pokemon != null) {
         final dbHelper = DatabaseHelper();
 
