@@ -11,12 +11,20 @@ class MiPokedex extends StatefulWidget {
 
 class _MiPokedexState extends State<MiPokedex> {
   List<PokemonLocal> pokemons =
-      []; // Lista para almacenar todos los Pokémon obtenidos de la base de datos
+      []; // Lista de Pokémon obtenidos de la base de datos
+  List<PokemonLocal> filteredPokemons = []; // Lista filtrada de Pokémon
+  TextEditingController searchController =
+      TextEditingController(); // Controlador para el campo de búsqueda
 
   @override
   void initState() {
     super.initState();
     obtenerPokemons(); // Cargar los Pokémon al iniciar el estado
+
+    // Escuchar cambios en el campo de búsqueda
+    searchController.addListener(() {
+      filterPokemons();
+    });
   }
 
   // Método para obtener todos los Pokémon de la base de datos
@@ -37,6 +45,22 @@ class _MiPokedexState extends State<MiPokedex> {
                 backImage: pokemonData['backImage'],
               ))
           .toList();
+
+      // Inicializamos la lista filtrada con todos los Pokémon al principio
+      filteredPokemons = pokemons;
+    });
+  }
+
+  // Método para filtrar los Pokémon según el texto ingresado
+  void filterPokemons() {
+    String query = searchController.text.toLowerCase();
+
+    // Filtra los Pokémon por nombre
+    setState(() {
+      filteredPokemons = pokemons
+          .where((pokemon) =>
+              pokemon.name.toLowerCase().contains(query)) // Filtra por nombre
+          .toList();
     });
   }
 
@@ -46,29 +70,49 @@ class _MiPokedexState extends State<MiPokedex> {
       appBar: AppBar(
         title: const Text('Lista de Pokémon'),
       ),
-      body: Center(
-        child: pokemons.isEmpty
-            ? const CircularProgressIndicator() // Muestra un indicador de carga si no hay Pokémon aún
-            : ListView.builder(
-                itemCount: pokemons.length, // Número de Pokémon en la lista
-                itemBuilder: (context, index) {
-                  final pokemon =
-                      pokemons[index]; // Obtener el Pokémon en el índice actual
-                  return ListTile(
-                    title: Text(pokemon.name), // Mostrar el nombre del Pokémon
-                    subtitle:
-                        Text('ID: ${pokemon.id}'), // Mostrar el ID del Pokémon
-                    leading: pokemon.frontImage.isNotEmpty
-                        ? Image.network(pokemon
-                            .frontImage) // Mostrar la imagen frontal si está disponible
-                        : const Icon(Icons.image_not_supported),
-                    trailing: pokemon.backImage.isNotEmpty
-                        ? Image.network(pokemon
-                            .backImage) // Mostrar la imagen trasera si está disponible
-                        : const Icon(Icons.image_not_supported),
-                  );
-                },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller:
+                  searchController, // Asocia el controlador al campo de búsqueda
+              decoration: InputDecoration(
+                labelText: 'Buscar Pokémon',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search),
               ),
+            ),
+          ),
+          Expanded(
+            child: filteredPokemons.isEmpty
+                ? const Center(
+                    child:
+                        CircularProgressIndicator()) // Muestra un indicador de carga si no hay Pokémon aún
+                : ListView.builder(
+                    itemCount: filteredPokemons
+                        .length, // Número de Pokémon en la lista filtrada
+                    itemBuilder: (context, index) {
+                      final pokemon = filteredPokemons[
+                          index]; // Obtener el Pokémon en el índice actual
+                      return ListTile(
+                        title:
+                            Text(pokemon.name), // Mostrar el nombre del Pokémon
+                        subtitle: Text(
+                            'ID: ${pokemon.id}'), // Mostrar el ID del Pokémon
+                        leading: pokemon.frontImage.isNotEmpty
+                            ? Image.network(pokemon
+                                .frontImage) // Mostrar la imagen frontal si está disponible
+                            : const Icon(Icons.image_not_supported),
+                        trailing: pokemon.backImage.isNotEmpty
+                            ? Image.network(pokemon
+                                .backImage) // Mostrar la imagen trasera si está disponible
+                            : const Icon(Icons.image_not_supported),
+                      );
+                    },
+                  ),
+          ),
+        ],
       ),
     );
   }
