@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:testapp/src/screens/basic_design.dart';
 import 'package:testapp/src/screens/design_camendiola.dart';
 
 class ScrollScreen extends StatelessWidget {

@@ -39,10 +39,9 @@ class _DrawerMenuHome extends StatelessWidget {
   final int selectedIndex; // Para saber qué ítem está seleccionado
 
   const _DrawerMenuHome(
-      {super.key,
-      required this.onMenuItemSelected,
-      required this.selectedIndex});
+      {required this.onMenuItemSelected, required this.selectedIndex});
 
+  // ignore: unused_element
   void _mostrarDialogo(BuildContext context, String titulo, String mensaje) {
     showDialog(
       context: context,
