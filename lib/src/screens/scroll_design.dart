@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/src/screens/basic_design.dart';
+import 'package:testapp/src/screens/design_camendiola.dart';
 
 class ScrollScreen extends StatelessWidget {
   const ScrollScreen({super.key});
@@ -89,9 +90,8 @@ class _Button extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          BasicDesignScreen()), // Pantalla2 es la pantalla destino
+                  MaterialPageRoute(builder: (context) => CaMendiola()),
+                  //BasicDesignScreen()), // Pantalla2 es la pantalla destino
                 );
               },
               // ignore: sort_child_properties_last

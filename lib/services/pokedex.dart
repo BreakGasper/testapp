@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/infrastructure/models/pokemon_local.dart';
 import 'package:testapp/services/database_helper.dart';
+import 'package:testapp/services/pokeapi.dart';
+import 'package:testapp/src/screens/detallePokemon.dart';
 
 class MiPokedex extends StatefulWidget {
   const MiPokedex({super.key});
@@ -84,11 +86,27 @@ class _MiPokedexState extends State<MiPokedex> {
               ),
             ),
           ),
+          FloatingActionButton(
+            backgroundColor: Colors.white,
+            heroTag: 'fab_capture',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Pokeapi()),
+              );
+            },
+            child: SizedBox(
+              width: 50.0,
+              height: 50.0,
+              child: Image.asset(
+                'assets/images/cerrar.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           Expanded(
             child: filteredPokemons.isEmpty
-                ? const Center(
-                    child:
-                        CircularProgressIndicator()) // Muestra un indicador de carga si no hay Pokémon aún
+                ? const Center(child: CircularProgressIndicator())
                 : ListView.builder(
                     itemCount: filteredPokemons
                         .length, // Número de Pokémon en la lista filtrada
@@ -108,6 +126,16 @@ class _MiPokedexState extends State<MiPokedex> {
                             ? Image.network(pokemon
                                 .backImage) // Mostrar la imagen trasera si está disponible
                             : const Icon(Icons.image_not_supported),
+                        onTap: () {
+                          // Navegar a la pantalla de detalles y pasar el Pokémon seleccionado
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  DetallePokemonScreen(pokemon: pokemon),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),

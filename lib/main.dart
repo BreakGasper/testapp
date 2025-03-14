@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Material App',
       debugShowCheckedModeBanner: false,
-      initialRoute: 'scroll_screen',
+      initialRoute: 'design_camendiola',
       routes: {
         'basic_design': (BuildContext context) => BasicDesignScreen(),
         'design_camendiola': (BuildContext context) => CaMendiola(),
